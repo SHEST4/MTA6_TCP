@@ -1,6 +1,7 @@
 from _mta import Mta6_Data
 from _mta import prepare_sending_data
 import tkinter as tk
+from tkinter import ttk
 import socket
 import threading
 
@@ -258,14 +259,15 @@ output_field = tk.Text(root, state='disabled', highlightthickness=2, highlightba
 output_field.grid(row=4, column=1, columnspan=4, padx=10, pady=3, sticky=tk.NS) 
 output_field.config(width=120, height=25) 
 
+#Scrollbar
 scrollbar = tk.Scrollbar(root, command=output_field.yview)
 scrollbar.grid(row=4, column=5, sticky=tk.NS)
 output_field.config(yscrollcommand=scrollbar.set)
 
+#Menu Right Click
 context_menu = tk.Menu(root, tearoff=0)
 context_menu.add_command(label="Clear Window", command=clear_output)
-
-output_field.bind("<Button-3>", show_context_menu)  # ПКМ
+output_field.bind("<Button-3>", show_context_menu)  
 
 #Ctrl+V enable
 root.bind("<Control-v>", paste)
@@ -289,14 +291,15 @@ id_label.grid(row=2, column=0, sticky=tk.W)
 speed_label = tk.Label(root, text="Speed") # 2 3
 speed_label.grid(row=2, column=3, sticky=tk.W, padx=(47, 2)) 
 run_label = tk.Label(root, text="RUN(km)") # 3 3
-run_label.grid(row=3, column=3, sticky=tk.W, padx=(40, 2)) 
+run_label.grid(row=3, column=3, sticky=tk.W, padx=(35, 2)) 
+
 
 # Button Submit
-submit_button = tk.Button(root, text="Submit", command=on_submit)
+submit_button = tk.Button(root, text="Submit", command=on_submit,  relief="groove", borderwidth=3, foreground="black", background="light grey")
 submit_button.grid(row=5, column=4, ipadx=20, padx=(2, 2), pady=10, rowspan=2, sticky=tk.W)
 
 #Button Check Connect
-check_connect_button = tk.Button(root, text="Check Connect", command=connect)
+check_connect_button = tk.Button(root, text="Check Connect", command=connect,  relief="groove", borderwidth=3, foreground="black", background="light grey")
 check_connect_button.grid(row=5, column=4, ipadx=25, padx=7, pady=10, rowspan=2, sticky=tk.E)
 
 label_output_text = tk.Label(root, text="Output")
