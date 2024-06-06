@@ -47,7 +47,7 @@ class Mta6_Data(ctypes.Structure):
         ("GpsGsm", ctypes.c_uint8)
     ]
 
-def prepare_sending_data(lat:float, lon:float, speed:int, run:int):
+def prepare_sending_data(lat:float, lon:float, speed:int, run:int, height:int, voltage:float):
     Mta_Data = Mta6_Data()
     
     # Header
@@ -83,12 +83,12 @@ def prepare_sending_data(lat:float, lon:float, speed:int, run:int):
     uiPtr = struct.unpack('I', struct.pack('f', gps_sec))[0] >> 2
     Mta_Data.Gps_Second = uiPtr
 
-    Mta_Data.TerminalStatus = 0x01
-    Mta_Data.Altitude = ctypes.c_int16(int(100))
+    Mta_Data.TerminalStatus = 0x00
+    Mta_Data.Altitude = ctypes.c_int16(int(height))
     Mta_Data.SpeedHi = 0x00
     Mta_Data.SpeedLo = int(speed)
     Mta_Data.Azimuth = 0x00
-    Mta_Data.Kilometrage = int((run) / 1000.0)
+    Mta_Data.Kilometrage = int(run)
     Mta_Data.FuelConsumption1 = 0x00
     Mta_Data.FuelConsumption2 = 0x00
     Mta_Data.EngineHourDiv6 = 0x00
@@ -107,7 +107,8 @@ def prepare_sending_data(lat:float, lon:float, speed:int, run:int):
     Mta_Data.ContStateOldHi = 0x00
     Mta_Data.ContStateOldLo = 0x00
     Mta_Data.BoardPwrHiAndBat = (0x00 >> 6) & 0xFC; 
-    Mta_Data.BoardPwrLo = (0x02 & 0xFF); 
+    voltage = voltage / 0.1
+    Mta_Data.BoardPwrLo = (int(voltage) & 0xFF); 
     Mta_Data.TemperatureChip = 0x00
     Mta_Data.GpsGsm |= (0x00 << 7) & 0xFF
     Mta_Data.GpsGsm |= (0x04 << 4) & 0xFF
